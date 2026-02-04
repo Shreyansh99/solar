@@ -183,9 +183,16 @@ export const ModalForm: React.FC<ModalFormProps> = ({ isOpen, onClose, onSubmitS
     if (Object.keys(newErrors).length === 0) {
       console.log('Form submitted:', formData);
       
-      // Track Lead event for Meta Pixel
+      // Track events for Meta Pixel
       if (typeof window !== 'undefined' && window.fbq) {
+        // Standard Lead Event
         window.fbq('track', 'Lead');
+        
+        // Custom FormSubmit Event with user details
+        window.fbq('trackCustom', 'FormSubmit', {
+          fullName: formData.fullName,
+          email: formData.email
+        });
       }
 
       onSubmitSuccess();
